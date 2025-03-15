@@ -11,9 +11,9 @@
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
-        const API_KEY = "<script>document.write(window.ENV.NEXT_PUBLIC_API_KEY)</script>";
-        const CLIENT_ID = "<script>document.write(window.ENV.NEXT_PUBLIC_CLIENT_ID)</script>";
-        const APP_ID = "<script>document.write(window.ENV.NEXT_PUBLIC_APP_ID)</script>";
+        const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+        const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
+        const APP_ID = process.env.NEXT_PUBLIC_APP_ID;
 
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
         let tokenClient, accessToken = null, pickerInited = false, gisInited = false;
