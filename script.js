@@ -38,6 +38,27 @@ function createPicker() {
   }
 }
 
+// Replace with your Apps Script Web App URL
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/1MfUqcJ_AM-b41o-HEoL-nCPVA1pEASHzluAvMqju8WTw1BD8PSrXP39D/exec';
+
+function sendFileIdToAppsScript(fileId) {
+  fetch(GAS_ENDPOINT, {
+    method: 'POST',
+    body: JSON.stringify({ fileId }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.text())
+    .then(data => {
+      console.log('Apps Script Response:', data);
+      alert('Spreadsheet selected successfully!');
+      window.close(); // closes the Picker tab
+    })
+    .catch(err => {
+      console.error('Error sending to Apps Script:', err);
+      alert('Failed to send spreadsheet.');
+    });
+}
+
 function pickerCallback(data) {
   if (data.action === google.picker.Action.PICKED) {
     const fileId = data.docs[0].id;
