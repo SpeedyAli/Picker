@@ -1,5 +1,5 @@
-const developerKey = import.meta.env.VITE_GOOGLE_API_KEY;
-const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const developerKey = window.GOOGLE_API_KEY;
+const clientId = window.GOOGLE_CLIENT_ID;
 let oauthToken;
 
 function onApiLoad() {
@@ -66,7 +66,27 @@ function sendFileIdToAppsScript(fileId) {
 function pickerCallback(data) {
   if (data.action === google.picker.Action.PICKED) {
     const fileId = data.docs[0].id;
-    alert("Selected file ID: " + fileId);
-    sendFileIdToAppsScript(fileId);
+    console.log("Selected File ID:", fileId);
+
+    fetch('https://script.google.com/macros/s/AKfycbyu-RP0tFGtCnuwIRH6fl3oZmXVn5G-VNBS1BlObIiH1iBPfIq_YUiOELFFpH_5GM4WPA/exec', {
+      method: 'POST',
+      body: JSON.stringify({
+        fileId,
+        accessToken
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.text())
+    .then(response => {
+      console.log('Response from Apps Script:', response);
+      alert('Data sent successfully!');
+    })
+    .catch(error => {
+      console.error('Failed to send:', error);
+      alert('Failed!');
+    });
   }
 }
+
